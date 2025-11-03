@@ -41,7 +41,7 @@
   - Ensure proper URL parameter handling
   - _Requirements: 3.1, 3.2_
 
-- [ ] 6. Write integration tests for API endpoints
+- [x] 6. Write integration tests for API endpoints
   - Test complete API endpoint with various input scenarios
   - Verify JSON response structure and content accuracy
   - Test CORS header presence in responses
@@ -50,3 +50,13 @@
   - Test error message formatting and HTTP status codes
   - Test performance with reasonable input sizes
   - _Requirements: 1.1, 1.2, 1.3, 1.5, 2.1, 2.2, 2.4, 3.3, 3.4, 4.1, 4.4_
+
+- [x] 7. Create main startup script for API server
+  - Create a main.py or run.py script to start the Django development server
+  - Add command-line argument parsing for host, port, and debug options
+  - Include proper error handling for server startup failures
+  - Add logging configuration for server startup and shutdown
+  - Create documentation for running the server locally
+  - Ensure the script handles database migrations automatically
+  - Add environment variable support for configuration
+  - _Requirements: 3.1, 3.2, 3.5_
