@@ -5,5 +5,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # Placeholder for API endpoints - will be implemented in later tasks
+    path('nigel-number/', views.NigelNumberAPIView.as_view(), name='nigel-number'),
 ]
