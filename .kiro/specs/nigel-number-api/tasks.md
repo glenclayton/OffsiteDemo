@@ -8,10 +8,12 @@
   - Create requirements.txt with necessary dependencies
   - _Requirements: 3.4, 3.5_
 
-- [ ] 2. Implement prime number calculation utility
+- [x] 2. Implement prime number calculation utility
   - Create utils.py module with Sieve of Eratosthenes algorithm
+  - Write unit tests for functions including edge cases
   - Implement function to calculate sum of primes up to N
   - Handle edge cases for N=1 (return 0) and N=2 (return 2)
+  - Run unit tests and fix any issues
   - Add performance optimizations for reasonable input sizes
   - Return both sum and list of primes found for response
   - _Requirements: 1.4, 4.1, 4.2, 4.3_
@@ -39,25 +41,12 @@
   - Ensure proper URL parameter handling
   - _Requirements: 3.1, 3.2_
 
-- [ ] 6. Add comprehensive error handling and logging
-  - Implement custom exception handling for calculation errors
-  - Add structured error responses for all failure scenarios
-  - Configure Django logging for request and error tracking
-  - Ensure all error responses include descriptive messages
-  - Add internal server error handling with HTTP 500 responses
-  - _Requirements: 2.1, 2.2, 2.3, 2.4, 4.5_
-
-- [ ] 7. Write unit tests for core functionality
-  - Create test cases for prime number calculation accuracy
-  - Test input validation logic with valid and invalid inputs
-  - Verify edge case handling (N=1, N=2, large numbers)
-  - Test error message formatting and HTTP status codes
-  - _Requirements: 1.2, 1.3, 1.4, 4.1, 4.2, 4.3_
-
-- [ ] 8. Write integration tests for API endpoints
+- [ ] 6. Write integration tests for API endpoints
   - Test complete API endpoint with various input scenarios
   - Verify JSON response structure and content accuracy
   - Test CORS header presence in responses
   - Validate HTTP status codes for success and error cases
+  - Test input validation logic with valid and invalid inputs
+  - Test error message formatting and HTTP status codes
   - Test performance with reasonable input sizes
-  - _Requirements: 1.1, 1.5, 2.1, 2.2, 3.3, 3.4, 4.1, 4.4_
+  - _Requirements: 1.1, 1.2, 1.3, 1.5, 2.1, 2.2, 2.4, 3.3, 3.4, 4.1, 4.4_
