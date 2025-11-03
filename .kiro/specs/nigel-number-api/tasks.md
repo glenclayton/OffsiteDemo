@@ -25,7 +25,7 @@
   - Implement error message formatting for validation failures
   - _Requirements: 1.2, 1.3, 2.4_
 
-- [ ] 4. Implement API view and endpoint logic
+- [x] 4. Implement API view and endpoint logic
   - Create API view class using Django REST Framework
   - Implement GET request handler for Nigel Number calculation
   - Integrate prime calculation utility with API view

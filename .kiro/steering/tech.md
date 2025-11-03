@@ -38,8 +38,17 @@ python manage.py migrate
 # Create migrations
 python manage.py makemigrations
 
-# Run tests
-pytest
+# Run tests (Django with pytest)
+DJANGO_SETTINGS_MODULE=nigel_api.settings pytest
+
+# Run tests (alternative using Django's test runner)
+python manage.py test
+
+# Run specific test file
+DJANGO_SETTINGS_MODULE=nigel_api.settings pytest api/tests.py
+
+# Run tests with verbose output
+DJANGO_SETTINGS_MODULE=nigel_api.settings pytest -v
 
 # Collect static files
 python manage.py collectstatic
