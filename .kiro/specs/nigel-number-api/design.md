@@ -23,8 +23,9 @@ Client Request → Django URL Router → API View → Prime Calculator → JSON 
 - **Language**: Python 3.x
 - **API Style**: RESTful HTTP API
 - **Response Format**: JSON
-- **Development Server**: Django development server
+- **Development Server**: Django development server / Gunicorn (production)
 - **Testing**: pytest with pytest-django
+- **Containerization**: Docker with multi-stage builds
 
 ### Design Decisions
 
@@ -212,14 +213,118 @@ GET /api/nigel-number/?n=10
 - Error logging for debugging and monitoring
 - No sensitive data exposure in logs or error messages
 
+## Docker Containerization Design
+
+### Container Architecture
+
+```
+Docker Container
+├── Python 3.x Runtime
+├── Application Dependencies (requirements.txt)
+├── Django Application Code
+├── Gunicorn WSGI Server
+└── Health Check Endpoint
+```
+
+### Dockerfile Design Strategy
+
+#### Multi-Stage Build Approach
+1. **Build Stage**: Install dependencies and prepare application
+2. **Runtime Stage**: Copy only necessary files for minimal image size
+
+#### Base Image Selection
+- **Base Image**: `python:3.11-slim` for optimal size/performance balance
+- **Security**: Regular base image updates for security patches
+- **Size Optimization**: Multi-stage builds to reduce final image size
+
+### Container Configuration
+
+#### Port Configuration
+- **Default Port**: 8000 (configurable via environment variable)
+- **Health Check Port**: Same as application port
+- **Port Mapping**: Configurable for different deployment environments
+
+#### Environment Variables
+```bash
+PORT=8000                    # Application port
+DJANGO_SETTINGS_MODULE=nigel_api.settings
+DEBUG=False                  # Production setting
+ALLOWED_HOSTS=*             # Configurable allowed hosts
+```
+
+#### Volume Mounts
+- **Logs**: `/app/logs` for persistent logging
+- **Static Files**: `/app/static` for static asset serving (if needed)
+
+### Container Startup Process
+
+1. **Dependency Installation**: Install Python packages from requirements.txt
+2. **Application Setup**: Copy application code and configuration
+3. **Database Migration**: Run Django migrations (if database is added later)
+4. **Static Files**: Collect static files for production serving
+5. **Server Startup**: Launch Gunicorn WSGI server
+6. **Health Check**: Expose health check endpoint for container orchestration
+
+### Production Server Configuration
+
+#### Gunicorn Configuration
+```python
+# gunicorn.conf.py
+bind = "0.0.0.0:8000"
+workers = 4
+worker_class = "sync"
+worker_connections = 1000
+max_requests = 1000
+max_requests_jitter = 100
+timeout = 30
+keepalive = 2
+```
+
+#### Health Check Implementation
+- **Endpoint**: `GET /health/`
+- **Response**: JSON status with application health
+- **Docker Health Check**: Built-in container health monitoring
+
+### Container Security
+
+#### Security Best Practices
+- **Non-root User**: Run application as non-privileged user
+- **Minimal Dependencies**: Only include necessary packages
+- **Security Updates**: Regular base image updates
+- **Secret Management**: Environment variables for sensitive configuration
+
+#### Dockerfile Security Features
+```dockerfile
+# Create non-root user
+RUN adduser --disabled-password --gecos '' appuser
+USER appuser
+
+# Set secure file permissions
+COPY --chown=appuser:appuser . /app/
+```
+
 ## Deployment Considerations
 
 ### Environment Configuration
 - Environment-specific settings (development/production)
 - Configurable logging levels
 - CORS settings management
+- Docker environment variable configuration
+
+### Container Orchestration
+- **Docker Compose**: Local development and testing
+- **Kubernetes**: Production container orchestration
+- **Health Checks**: Container health monitoring
+- **Resource Limits**: CPU and memory constraints
 
 ### Scalability
 - Stateless design enables horizontal scaling
 - No database dependencies simplify deployment
-- Containerization-ready architecture
+- Container-based architecture supports auto-scaling
+- Load balancer compatibility for multi-instance deployments
+
+### Monitoring and Logging
+- **Container Logs**: Structured logging to stdout/stderr
+- **Health Monitoring**: Built-in health check endpoints
+- **Metrics Collection**: Container resource usage monitoring
+- **Log Aggregation**: Compatible with centralized logging systems

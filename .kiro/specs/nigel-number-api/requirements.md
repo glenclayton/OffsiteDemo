@@ -59,3 +59,15 @@ The Nigel Number API is a Django-based REST API server that calculates the "Nige
 3. THE API Server SHALL handle the edge case where N equals 2 (result should be 2)
 4. WHEN the input integer is very large, THE API Server SHALL implement reasonable performance optimizations
 5. THE API Server SHALL log calculation requests for monitoring purposes
+
+### Requirement 5
+
+**User Story:** As a DevOps engineer, I want the API server packaged in a Docker container, so that I can deploy it consistently across different environments.
+
+#### Acceptance Criteria
+
+1. THE API Server SHALL be packaged in a Docker container with all necessary dependencies
+2. THE Docker Container SHALL expose the API server on a configurable port
+3. THE Docker Container SHALL include a Dockerfile that builds the application image
+4. THE Docker Container SHALL use a lightweight base image for optimal performance
+5. THE API Server SHALL start automatically when the Docker container is launched
